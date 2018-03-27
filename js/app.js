@@ -1,5 +1,3 @@
-console.log("javascript is working");
-
 class Tomagotchi {
 	constructor (name, age) {
 		this.name = name;
@@ -20,7 +18,7 @@ $("#hunger").text("Hunger: " + pet.hunger);
 $("#boredom").text("Boredom: " + pet.boredom);
 $("#sleepiness").text("Sleepiness: " + pet.sleepiness);
 $("#age").text("Age: " + pet.age);
-
+$("#name").text("Name: " + pet.name);
 // RAISE STAT FUNCTIONS
 
 const raiseHunger = () => {
@@ -39,18 +37,65 @@ const raiseAge = ()=> {
 
 // BUTTON FUNCTIONS
 
+const displayMessage = (message) => {
+	// param is the message to be displayed
+	// update message h1 id
+	$("#message").text(message);
+}
+
+// set time function for display message function
+// const messageTime = (message) => {
+// 	setInterval(displayMessage(message), 1000);
+// 	clearInterval();
+// }
+
 $("#feed").on("click", function(event) {
-	// lower hunger stat by x amount
-	// display message that pet has been fed
+	// hunger can't be below 1	
+	// light needs to be on so pet doesn't get fed when they're sleeping.
+	if (pet.hunger >= 1 && lightOn === true) {
+		// lower hunger by 1
+		pet.hunger--;
+		displayMessage(pet.name + " ate a hearty meal!")
+	}
 });
+// set default value with light being on 
+let lightOn = true;
 $("#light").on("click", function(event) {
-	// lower sleepiness by x amount over an interval
-	// switch will be boolean
-	// when lights are "off", background is black and everything but buttons
-	// and stats are invisible
+	lightOn = !lightOn;
+	if (!lightOn) {
+		// when lights are "off", background is black and everything but buttons
+		// and stats are invisible
+		$("#lights_off").css({"background-color": "black", "z-index": "1000"});
+		$("button").css("z-index", "1001");
+		$("#stats").css("z-index", "1001");
+		// change text for light button
+		$("#light").text("Lights On");
+		// make pet disappear
+		$("#pet").css("visibility", "hidden");
+	} else {
+		// change body and button to default values
+		$("#lights_off").css({"background": "none", "z-index": "-1"});
+		$("button").css("z-index", "0");
+		$("#stats").css("z-index", "0");
+		// change text for light button
+		$("#light").text("Lights Off");
+		// make pet reappear
+		$("#pet").css("visibility", "visible")
+	}
+	// display lightbulb?
+	if (pet.sleepiness >= 1) {
+		// can't be greater than one
+		pet.sleepiness--;
+		// display message
+		displayMessage(pet.name + " took a relaxing nap.");
+	}
 });
 $("#play").on("click", function(event) {
-	// lower boredom stat by x amount
-	// display message that pet has been played with
-	// maybe incorporate an image for this?
+	if (pet.boredom >= 1 && lightOn === true) {
+		// lower boredom by 1
+		pet.boredom--;
+		// display message that pet has been played with
+		displayMessage(pet.name + " is having fun!")
+		// maybe incorporate an image for this?
+	}
 });
