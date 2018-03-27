@@ -4,9 +4,9 @@ class Tomagotchi {
 		this.age = age;
 		// hunger, sleepiness, boredom should start at 0,
 		// then increase incrementally
-		this.hunger = 1;
-		this.sleepiness = 1;
-		this.boredom = 1;
+		this.hunger = 10;
+		this.sleepiness = 10;
+		this.boredom = 10;
 	}
 }
 
@@ -19,6 +19,7 @@ $("#boredom").text("Boredom: " + pet.boredom);
 $("#sleepiness").text("Sleepiness: " + pet.sleepiness);
 $("#age").text("Age: " + pet.age);
 $("#name").text("Name: " + pet.name);
+
 // RAISE STAT FUNCTIONS
 
 const raiseHunger = () => {
@@ -52,9 +53,10 @@ const displayMessage = (message) => {
 $("#feed").on("click", function(event) {
 	// hunger can't be below 1	
 	// light needs to be on so pet doesn't get fed when they're sleeping.
-	if (pet.hunger >= 1 && lightOn === true) {
+	if (pet.hunger > 1 && lightOn === true) {
 		// lower hunger by 1
 		pet.hunger--;
+		$("#hunger").text("Hunger: " + pet.hunger);
 		displayMessage(pet.name + " ate a hearty meal!")
 	}
 });
@@ -72,6 +74,13 @@ $("#light").on("click", function(event) {
 		$("#light").text("Lights On");
 		// make pet disappear
 		$("#pet").css("visibility", "hidden");
+		if (pet.sleepiness > 1) {
+			// can't be greater than one
+			pet.sleepiness--;
+			// display message
+			$("#sleepiness").text("Sleepiness: " + pet.sleepiness);
+			displayMessage(pet.name + " took a relaxing nap.");
+		}
 	} else {
 		// change body and button to default values
 		$("#lights_off").css({"background": "none", "z-index": "-1"});
@@ -83,19 +92,33 @@ $("#light").on("click", function(event) {
 		$("#pet").css("visibility", "visible")
 	}
 	// display lightbulb?
-	if (pet.sleepiness >= 1) {
-		// can't be greater than one
-		pet.sleepiness--;
-		// display message
-		displayMessage(pet.name + " took a relaxing nap.");
-	}
 });
 $("#play").on("click", function(event) {
-	if (pet.boredom >= 1 && lightOn === true) {
+	if (pet.boredom > 1 && lightOn === true) {
 		// lower boredom by 1
 		pet.boredom--;
+		$("#boredom").text("Boredom: " + pet.boredom);
 		// display message that pet has been played with
 		displayMessage(pet.name + " is having fun!")
 		// maybe incorporate an image for this?
 	}
+});
+
+// NAME PET MODAL FUNCTIONALITY
+
+const modal = $(".modal");
+const openModal = $(".name_pet");
+const closeModal = $(".close-button");
+
+closeModal.on("click", function (event) {
+	modal.removeClass("show-modal");
+});
+
+openModal.on("click", function (event) {
+	modal.addClass("show-modal");
+});
+
+$("#name_pet").on("click", function(event) {
+	pet.name = $("input").val();
+	$("#name").text("Name: " + $("input").val());
 });
