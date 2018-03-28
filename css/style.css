@@ -8,6 +8,10 @@ body {
 #message {
 	color: white;
 }
+#reset {
+    visibility: hidden;
+}
+
 
 /*MODAL STYLING
 */
