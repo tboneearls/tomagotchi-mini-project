@@ -11,6 +11,9 @@ button:hover {
     cursor: pointer;
     background-color: #FF3B31;
 }
+#reset:flash{
+    background-color: #FF3B31
+}
 .title {
     background-color: #6BE8C0;
     vertical-align: middle;

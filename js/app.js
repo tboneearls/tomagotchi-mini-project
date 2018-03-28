@@ -7,9 +7,10 @@ class Tomagotchi {
 		this.hunger = 1;
 		this.sleepiness = 1;
 		this.boredom = 1;
+		this.isClean = true;
 	}
 	play() {
-		if (this.boredom > 1 && lightOn === true) {
+		if (this.boredom > 1) {
 			// lower boredom by 1
 			this.boredom--;
 			$("#boredom").text("Boredom: " + this.boredom);
@@ -80,6 +81,13 @@ class Tomagotchi {
 		$("#pet").attr("src", "images/dead_pet.png")
 		$("#reset").css("visibility", "visible")
 	}
+	exercise () {
+		// when exercising, the rate of hunger and sleepiness increases faster
+		// will need to shower after exercising before doing anything else
+	}
+	shower () {
+		this.isClean = !this.isClean;
+	}
 }
 
 // create instance of tomagotchi
@@ -135,7 +143,7 @@ const raiseAge = () => {
 // raising age every minute
 const intID = setInterval(raiseAge, 60000);
 // raising hunger every 45 seconds
-setInterval(raiseHunger, 45000);
+setInterval(raiseHunger, 100);
 setInterval(raiseSleepiness, 50000);
 setInterval(raiseBoredom, 55000);
 
@@ -151,15 +159,17 @@ const removeMessage = () => {
 }
 
 $("#feed").on("click", function(event) {
-	displayMessage(pet.name + " enjoys a hearty meal!");
-	setTimeout(removeMessage, 1000);
-	pet.eat();
+	if (lightOn && pet.isClean) {
+		displayMessage(pet.name + " enjoys a hearty meal!");
+		setTimeout(removeMessage, 1000);
+		pet.eat();
+	}
 });
 // set default value with light being on 
 let lightOn = true;
 
 $("#light").on("click", function(event) {
-	if (lightOn) {
+	if (lightOn && pet.isClean) {
 		displayMessage(pet.name + " takes a relaxing nap!");
 		$("#message").css("color", "white");
 		setTimeout(removeMessage, 500);
@@ -168,10 +178,23 @@ $("#light").on("click", function(event) {
 });
 
 $("#play").on("click", function(event) {
-	displayMessage(pet.name + " has some fun!");
-	setTimeout(removeMessage, 1000);
-	pet.play();
+	if (pet.isClean) {
+		displayMessage(pet.name + " has some fun!");
+		setTimeout(removeMessage, 1000);
+		pet.play();
+	}
 });
+
+$("#exercise").on("click", function(event) {
+	displayMessage(pet.name + " starts jogging.");
+	setTimeout(removeMessage, 1000);
+	pet.exercise();
+})
+$("#shower").on("click", function(event) {
+	displayMessage(pet.name + " takes a shower!");
+	setTimeout(removeMessage, 1000);
+	pet.shower();
+})
 
 // NAME PET MODAL FUNCTIONALITY
 
