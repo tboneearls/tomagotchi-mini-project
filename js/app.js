@@ -23,9 +23,11 @@ class Tomagotchi {
 		if (!lightOn) {
 			// when lights are "off", background is black and everything but buttons
 			// and stats are invisible
-			$("#lights_off").css({"background-color": "black", "z-index": "1000"});
+			$("#lightbulb").css("visibility", "hidden");
+			$("body").css({"background-color": "black", "z-index": "1000"});
+			$("#title").css("z-index", "1001");
 			$("button").css("z-index", "1001");
-			$("#stats").css("z-index", "1001");
+			$("#stats h1").css({"z-index": "1001", "color": "white"});
 			// change text for light button
 			$("#light").text("Lights On");
 			// make pet disappear
@@ -39,9 +41,10 @@ class Tomagotchi {
 			}
 		} else {
 			// change body and button to default values
-			$("#lights_off").css({"background": "none", "z-index": "-1"});
+			$("#lightbulb").css("visibility", "visible");
+			$("body").css({"background": "#FFCDF0", "z-index": "0"});
 			$("button").css("z-index", "0");
-			$("#stats").css("z-index", "0");
+			$("#stats h1").css({"z-index": "0", "color": "black"});
 			// change text for light button
 			$("#light").text("Lights Off");
 			// make pet reappear
@@ -142,16 +145,31 @@ const displayMessage = (message) => {
 	// param is the message to be displayed
 	$("#message").text(message);
 }
+const removeMessage = () => {
+	$("#message").text("");
+	$("#message").css("color", "black")
+}
 
 $("#feed").on("click", function(event) {
+	displayMessage(pet.name + " enjoys a hearty meal!");
+	setTimeout(removeMessage, 1000);
 	pet.eat();
 });
 // set default value with light being on 
 let lightOn = true;
+
 $("#light").on("click", function(event) {
+	if (lightOn) {
+		displayMessage(pet.name + " takes a relaxing nap!");
+		$("#message").css("color", "white");
+		setTimeout(removeMessage, 500);
+	}
 	pet.sleep();
 });
+
 $("#play").on("click", function(event) {
+	displayMessage(pet.name + " has some fun!");
+	setTimeout(removeMessage, 1000);
 	pet.play();
 });
 
@@ -166,13 +184,18 @@ closeModal.on("click", function (event) {
 });
 
 openModal.on("click", function (event) {
-	modal.addClass("show-modal");
+	if (lightOn) {
+		modal.addClass("show-modal");
+	}
 });
 
 // add function to rename pet whatever user wants
 $("#name_pet").on("click", function(event) {
-	newName = $("input").val();
-	pet.changeName(newName);
+	let newName;
+	if ($("input").val() === !undefined) {
+		newName = $("input").val();
+		pet.changeName(newName);
+	}
 });
 
 // add option to reset to original name

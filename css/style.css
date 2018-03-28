@@ -1,12 +1,32 @@
 body {
-	background-color: #3A1B82;
+	background-color: #FFCDF0;
+}
+body * {
+    font-family: 'Poppins', sans-serif;
+}
+button {
+    font-size: 16px;
+}
+button:hover {
+    cursor: pointer;
+    background-color: #FF3B31;
+}
+.title {
+    background-color: #6BE8C0;
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px;
 }
 #stats h1 {
-	color: white;
+	color: black;
+    margin-top: 0;
+    margin-bottom: 0;
 }
-
+#lightbulb {
+    float: left;
+}
 #message {
-	color: white;
+	color: black;
 }
 #reset {
     visibility: hidden;
@@ -32,10 +52,16 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 1rem 1.5rem;
-    width: 24rem;
+    background-color: #FFFB7B;
+    padding: 2rem 2rem;
+    width: 26rem;
     border-radius: 0.5rem;
+}
+input {
+    font-size: 13px;
+}
+.modal button {
+    font-size: 13px;
 }
 .close-button {
     float: right;
@@ -45,9 +71,10 @@ body {
     cursor: pointer;
     border-radius: 0.25rem;
     background-color: lightgray;
+    margin-bottom: 4px;
 }
 .close-button:hover {
-    background-color: darkgray;
+    background-color: #FF3B31;
 }
 .show-modal {
     opacity: 1;
