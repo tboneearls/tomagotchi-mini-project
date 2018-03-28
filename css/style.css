@@ -28,13 +28,21 @@ button:hover {
 #lightbulb {
     float: left;
 }
-#message {
-	color: black;
-}
 #reset {
     visibility: hidden;
 }
+#message {
+    position: absolute;
+    top: 20vh;
+    left: 35vw;
+	color: black;
 
+}
+#pet {
+    position: absolute;
+    top: 35vh;
+    left: 30vw;
+}
 
 /*MODAL STYLING
 */

@@ -8,6 +8,7 @@ class Tomagotchi {
 		this.sleepiness = 1;
 		this.boredom = 1;
 		this.isClean = true;
+		this.isDead = false;
 	}
 	play() {
 		if (this.boredom > 1) {
@@ -80,13 +81,20 @@ class Tomagotchi {
 	die () {
 		$("#pet").attr("src", "images/dead_pet.png")
 		$("#reset").css("visibility", "visible")
+		this.isDead = true;
 	}
 	exercise () {
+		displayMessage(pet.name + " starts jogging.");
+		this.isClean = false;
+		$("#exercise").text("Shower");
 		// when exercising, the rate of hunger and sleepiness increases faster
 		// will need to shower after exercising before doing anything else
 	}
 	shower () {
-		this.isClean = !this.isClean;
+		displayMessage(pet.name + " takes a hot shower.");
+		this.isClean = true;
+		console.log(this.isClean);
+		$("#exercise").text("Exercise");
 	}
 }
 
@@ -136,16 +144,15 @@ const raiseAge = () => {
 		pet.morph();
 	} else if (pet.age === 10) {
 		pet.morph();
-		clearInterval(intID);
 	}
 
 }
 // raising age every minute
-const intID = setInterval(raiseAge, 60000);
+const intID = setInterval(raiseAge, 40000);
 // raising hunger every 45 seconds
-setInterval(raiseHunger, 100);
-setInterval(raiseSleepiness, 50000);
-setInterval(raiseBoredom, 55000);
+const hungID = setInterval(raiseHunger, 20000);
+const sleepID = setInterval(raiseSleepiness, 30000);
+const boredID = setInterval(raiseBoredom, 25000);
 
 // BUTTON FUNCTIONS
 
@@ -159,7 +166,7 @@ const removeMessage = () => {
 }
 
 $("#feed").on("click", function(event) {
-	if (lightOn && pet.isClean) {
+	if (lightOn && pet.isClean && !pet.isDead) {
 		displayMessage(pet.name + " enjoys a hearty meal!");
 		setTimeout(removeMessage, 1000);
 		pet.eat();
@@ -169,16 +176,18 @@ $("#feed").on("click", function(event) {
 let lightOn = true;
 
 $("#light").on("click", function(event) {
-	if (lightOn && pet.isClean) {
+	if (lightOn && pet.isClean && !pet.isDead) {
 		displayMessage(pet.name + " takes a relaxing nap!");
 		$("#message").css("color", "white");
 		setTimeout(removeMessage, 500);
+		pet.sleep();
+	} else if (pet.isClean && !pet.isDead) {
+		pet.sleep();
 	}
-	pet.sleep();
 });
 
 $("#play").on("click", function(event) {
-	if (pet.isClean) {
+	if (lightOn && pet.isClean && !pet.isDead) {
 		displayMessage(pet.name + " has some fun!");
 		setTimeout(removeMessage, 1000);
 		pet.play();
@@ -186,14 +195,11 @@ $("#play").on("click", function(event) {
 });
 
 $("#exercise").on("click", function(event) {
-	displayMessage(pet.name + " starts jogging.");
-	setTimeout(removeMessage, 1000);
-	pet.exercise();
-})
-$("#shower").on("click", function(event) {
-	displayMessage(pet.name + " takes a shower!");
-	setTimeout(removeMessage, 1000);
-	pet.shower();
+	if (pet.isClean && !pet.isDead && lightOn) {
+		pet.exercise();
+	} else if (!pet.isDead && lightOn) {
+		pet.shower();
+	}
 })
 
 // NAME PET MODAL FUNCTIONALITY
@@ -207,7 +213,7 @@ closeModal.on("click", function (event) {
 });
 
 openModal.on("click", function (event) {
-	if (lightOn) {
+	if (lightOn && !pet.isDead) {
 		modal.addClass("show-modal");
 	}
 });
@@ -215,7 +221,8 @@ openModal.on("click", function (event) {
 // add function to rename pet whatever user wants
 $("#name_pet").on("click", function(event) {
 	let newName;
-	if ($("input").val() === !undefined) {
+	if ($("input").val() != "") {
+		console.log("hi")
 		newName = $("input").val();
 		pet.changeName(newName);
 	}
@@ -233,5 +240,6 @@ $("#reset").on("click", function(event) {
 	pet.hunger = 1;
 	pet.sleepiness = 1;
 	pet.boredom = 1;
-	this.css("visibility", "hidden");
+	pet.isDead = false;
+	$(this).css("visibility", "hidden");
 })
