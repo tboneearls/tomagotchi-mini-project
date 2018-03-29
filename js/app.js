@@ -1,3 +1,13 @@
+// TO DO LIST: 
+
+// 1. Animate tomagotchi
+// 2. display message if hunger/boredom/sleepiness are at certain levels
+
+// 3. have your tomagotchi give birth, to baby tomagotchi (with button?)
+// 4. display stats for baby // add buttons for baby. (somehow switch windows between parent/baby?)
+// 5. add special powers to baby tomagotchi (extends the class)
+
+// initialize tomagotchi class
 class Tomagotchi {
 	constructor () {
 		this.name = "Grimer";
@@ -92,8 +102,8 @@ class Tomagotchi {
 	}
 	shower () {
 		displayMessage(pet.name + " takes a hot shower.");
+		setTimeout(removeMessage, 1000);
 		this.isClean = true;
-		console.log(this.isClean);
 		$("#exercise").text("Exercise");
 	}
 }
@@ -101,7 +111,7 @@ class Tomagotchi {
 // create instance of tomagotchi
 const pet = new Tomagotchi ();
 
-// display default stats in browser
+// display starter stats in browser
 $("#hunger").text("Hunger: " + pet.hunger);
 $("#boredom").text("Boredom: " + pet.boredom);
 $("#sleepiness").text("Sleepiness: " + pet.sleepiness);
@@ -147,6 +157,7 @@ const raiseAge = () => {
 	}
 
 }
+
 // raising age every minute
 const intID = setInterval(raiseAge, 40000);
 // raising hunger every 45 seconds
@@ -154,7 +165,7 @@ const hungID = setInterval(raiseHunger, 20000);
 const sleepID = setInterval(raiseSleepiness, 30000);
 const boredID = setInterval(raiseBoredom, 25000);
 
-// BUTTON FUNCTIONS
+// func to display message, then for it to disappear (used with setTimeout)
 
 const displayMessage = (message) => {
 	// param is the message to be displayed
@@ -164,6 +175,8 @@ const removeMessage = () => {
 	$("#message").text("");
 	$("#message").css("color", "black")
 }
+
+// STAT CHANGING BUTTONS
 
 $("#feed").on("click", function(event) {
 	if (lightOn && pet.isClean && !pet.isDead) {
@@ -213,26 +226,31 @@ closeModal.on("click", function (event) {
 });
 
 openModal.on("click", function (event) {
-	if (lightOn && !pet.isDead) {
+	if (lightOn && !pet.isDead && pet.isClean) {
 		modal.addClass("show-modal");
 	}
 });
 
 // add function to rename pet whatever user wants
+// Rename your Tomagotchi!
+
+// MODAL BUTTONS:
 $("#name_pet").on("click", function(event) {
 	let newName;
 	if ($("input").val() != "") {
-		console.log("hi")
 		newName = $("input").val();
 		pet.changeName(newName);
 	}
 });
 
-// add option to reset to original name
+// add option to reset to default name
 $("#default").on("click", function(event) {
 	defaultName = "Grimer";
 	pet.changeName(defaultName);
 })
+
+// BUTTON ONLY APPEARS IF PET DIES
+// restarts game with default values
 $("#reset").on("click", function(event) {
 	$("#pet").attr("src", "images/grimer.png");
 	pet.name = "Grimer";
