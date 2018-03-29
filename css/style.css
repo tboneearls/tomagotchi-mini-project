@@ -16,7 +16,8 @@ button:hover {
     background-color: #FF3B31;
 }
 .title {
-    background-color: #6BE8C0;
+/*    add flashing effect to title?
+*/    background-color: #6BE8C0;
     vertical-align: middle;
     text-align: center;
     padding: 10px;
@@ -95,4 +96,23 @@ input {
     z-index: 1000;
     transform: scale(1.0);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+/*ELEMENTS TO ANIMATE*/
+
+#lightbulb {
+    float: left;
+}
+
+#pet {
+    position: absolute;
+    top: 35vh;
+    left: 30vw;
+}
+
+/*KEYFRAMES*/
+
+@keyframes roam {
+    from{}
+    to{}
 }
