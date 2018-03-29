@@ -108,11 +108,13 @@ input {
     position: absolute;
     top: 35vh;
     left: 30vw;
+    animation-name: roam;
+    animation-duration: 3s;
 }
 
 /*KEYFRAMES*/
 
 @keyframes roam {
-    from{}
-    to{}
+    from{ transform: translateX(0); }
+    to{ transform: translateX(400px); }
 }
