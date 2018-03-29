@@ -1,18 +1,31 @@
 // TO DO LIST: 
 
-// 1. Animate tomagotchi + lightbulb image (CSS Animations or Canvas?)
+// 1. Animate tomagotchi + lightbulb image (CSS keyframe animations// canvas// velocity.js library)
 // 2. display message if hunger/boredom/sleepiness are at certain levels
 // 3. display age of pet if they died in message
 // 4. change buttons to be more visual?
-// 5. STYLIZE PAGE
+// 5. animate interactions with pet
+// 6. STYLIZE PAGE
 
 // EXTRAS (BABY):
 
+// 0. create factory to store each tomagotchi
 // 1. have your tomagotchi give birth, to baby tomagotchi (with button?)
 // 2. update global code so all funcs will work for both parent and baby
 // 3. flesh out unique properties of baby (powers)
-// 4. display all info for baby // add buttons for baby. (somehow switch windows between parent/baby?)
+// 4. display all info for baby // add buttons for baby. (somehow switch windows between parent/baby?) // wrap entire code in a div then switch
 // 5. STYLIZE PAGE
+
+// *****GLOBAL VARIABLES*****
+
+// NAME PET MODAL FUNCTIONALITY
+
+const modal = $(".modal");
+const openModal = $(".name_pet");
+const closeModal = $(".close-button");
+
+// set default value with light being on 
+let lightOn = true;
 
 // initialize tomagotchi class
 class Tomagotchi {
@@ -71,7 +84,7 @@ class Tomagotchi {
 		}
 		// display lightbulb?
 	}
-	eat () {
+	eat() {
 		// hunger can't be below 1	
 		// light needs to be on so pet doesn't get fed when they're sleeping.
 		if (this.hunger > 1 && lightOn === true) {
@@ -81,11 +94,11 @@ class Tomagotchi {
 			displayMessage(this.name + " ate a hearty meal!")
 		}
 	}
-	changeName (input) {
+	changeName(input) {
 		this.name = input;
 		$("#name").text("Name: " + input);
 	}
-	morph () {
+	morph() {
 		// set conditions to morph
 		if (this.age === 5) {
 			// change image of pet to muk
@@ -151,48 +164,58 @@ $("#name").text("Name: " + pet.name);
 // RAISE STAT FUNCTIONS
 
 const raiseHunger = () => {
-	if (pet.hunger < 10) {
-		pet.hunger++;
-	}
-	$("#hunger").text("Hunger: " + pet.hunger);
-	if (pet.hunger === 10) {
-		pet.die();
+	if (!pet.isDead) {
+		if (pet.hunger < 10) {
+			pet.hunger++;
+		}
+		$("#hunger").text("Hunger: " + pet.hunger);
+		if (pet.hunger === 10) {
+			pet.die();
+		}
 	}
 }
 const raiseBoredom = () => {
-	if (pet.boredom < 10) {
-		pet.boredom++;
-	}
-	$("#boredom").text("Boredom: " + pet.boredom);
-	if (pet.boredom === 10) {
-		pet.die();
+	if (!pet.isDead) {
+		if (pet.boredom < 10) {
+			pet.boredom++;
+		}
+		$("#boredom").text("Boredom: " + pet.boredom);
+		if (pet.boredom === 10) {
+			pet.die();
+		}
 	}
 }
 const raiseSleepiness = () => {
-	if (pet.sleepiness < 10) {
-		pet.sleepiness++;
-	}
-	$("#sleepiness").text("Sleepiness: " + pet.sleepiness);
-	if (pet.sleepiness === 10) {
-		pet.die();
+	if (!pet.isDead) {
+		if (pet.sleepiness < 10) {
+			pet.sleepiness++;
+		}
+		$("#sleepiness").text("Sleepiness: " + pet.sleepiness);
+		if (pet.sleepiness === 10) {
+			pet.die();
+		}
 	}
 }
 const raiseAge = () => {
-	pet.age++;
-	$("#age").text("Age: " + pet.age);
-	if (pet.age === 5) {
-		pet.morph();
-	} else if (pet.age === 10) {
-		pet.morph();
+	if (!pet.isDead) {
+		pet.age++;
+		$("#age").text("Age: " + pet.age);
+		if (pet.age === 5) {
+			pet.morph();
+		} else if (pet.age === 10) {
+			pet.morph();
+		}
 	}
-
 }
+// STAT INTERVALS:
 
-// raising age every minute
+// raising age every 40 seconds
 const intID = setInterval(raiseAge, 40000);
-// raising hunger every 45 seconds
+// raising hunger every 20 seconds
 const hungID = setInterval(raiseHunger, 20000);
+// raising sleepiness every 30 seconds
 const sleepID = setInterval(raiseSleepiness, 30000);
+// raising boredom every 25 seconds
 const boredID = setInterval(raiseBoredom, 25000);
 
 // func to display message, then for it to disappear (used with setTimeout)
@@ -206,6 +229,8 @@ const removeMessage = () => {
 	$("#message").css("color", "black")
 }
 
+// *******BUTTONS*******
+
 // STAT CHANGING BUTTONS
 
 $("#feed").on("click", function(event) {
@@ -215,8 +240,7 @@ $("#feed").on("click", function(event) {
 		pet.eat();
 	}
 });
-// set default value with light being on 
-let lightOn = true;
+
 
 $("#light").on("click", function(event) {
 	if (lightOn && pet.isClean && !pet.isDead) {
@@ -245,11 +269,7 @@ $("#exercise").on("click", function(event) {
 	}
 })
 
-// NAME PET MODAL FUNCTIONALITY
 
-const modal = $(".modal");
-const openModal = $(".name_pet");
-const closeModal = $(".close-button");
 
 closeModal.on("click", function (event) {
 	modal.removeClass("show-modal");
