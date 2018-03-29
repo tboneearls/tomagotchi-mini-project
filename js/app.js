@@ -18,7 +18,7 @@
 
 // *****GLOBAL VARIABLES*****
 
-// NAME PET MODAL FUNCTIONALITY
+// NAME PET MODAL VARIABLES
 
 const modal = $(".modal");
 const openModal = $(".name_pet");
@@ -27,132 +27,24 @@ const closeModal = $(".close-button");
 // set default value with light being on 
 let lightOn = true;
 
-// initialize tomagotchi class
-class Tomagotchi {
-	constructor () {
-		this.name = "Grimer";
-		this.age = 1;
-		// hunger, sleepiness, boredom should start at 0,
-		// then increase incrementally
-		this.hunger = 1;
-		this.sleepiness = 1;
-		this.boredom = 1;
-		this.isClean = true;
-		this.isDead = false;
-	}
-	play() {
-		if (this.boredom > 1) {
-			// lower boredom by 1
-			this.boredom--;
-			$("#boredom").text("Boredom: " + this.boredom);
-			// display message that pet has been played with
-			displayMessage(this.name + " is having fun!")
-			// maybe incorporate an image for this?
-		}
-	}
-	sleep() {
-		lightOn = !lightOn;
-		if (!lightOn) {
-			// when lights are "off", background is black and everything but buttons
-			// and stats are invisible
-			$("#lightbulb").css("visibility", "hidden");
-			$("body").css({"background-color": "black", "z-index": "1000"});
-			$("#title").css("z-index", "1001");
-			$("button").css("z-index", "1001");
-			$("#stats h1").css({"z-index": "1001", "color": "white"});
-			// change text for light button
-			$("#light").text("Lights On");
-			// make pet disappear
-			$("#pet").css("visibility", "hidden");
-			if (this.sleepiness > 1) {
-				// can't be greater than one
-				this.sleepiness--;
-				// display message
-				$("#sleepiness").text("Sleepiness: " + this.sleepiness);
-				displayMessage(this.name + " took a relaxing nap.");
-			}
-		} else {
-			// change body and button to default values
-			$("#lightbulb").css("visibility", "visible");
-			$("body").css({"background": "#FFCDF0", "z-index": "0"});
-			$("button").css("z-index", "0");
-			$("#stats h1").css({"z-index": "0", "color": "black"});
-			// change text for light button
-			$("#light").text("Lights Off");
-			// make pet reappear
-			$("#pet").css("visibility", "visible")
-		}
-		// display lightbulb?
-	}
-	eat() {
-		// hunger can't be below 1	
-		// light needs to be on so pet doesn't get fed when they're sleeping.
-		if (this.hunger > 1 && lightOn === true) {
-			// lower hunger by 1
-			this.hunger--;
-			$("#hunger").text("Hunger: " + this.hunger);
-			displayMessage(this.name + " ate a hearty meal!")
-		}
-	}
-	changeName(input) {
-		this.name = input;
-		$("#name").text("Name: " + input);
-	}
-	morph() {
-		// set conditions to morph
-		if (this.age === 5) {
-			// change image of pet to muk
-			$("#pet").attr("src", "images/muk.png")
-		} else if (this.age === 10) {
-			$("#pet").attr("src", "images/alolan_muk.png")
-		}
-	}
-	die () {
-		$("#pet").attr("src", "images/dead_pet.png")
-		$("#reset").css("visibility", "visible")
-		this.isDead = true;
-	}
-	exercise () {
-		displayMessage(pet.name + " starts jogging.");
-		this.isClean = false;
-		$("#exercise").text("Shower");
-		// when exercising, the rate of hunger and sleepiness increases faster
-		// will need to shower after exercising before doing anything else
-	}
-	shower () {
-		displayMessage(pet.name + " takes a hot shower.");
-		setTimeout(removeMessage, 1000);
-		this.isClean = true;
-		$("#exercise").text("Exercise");
+// create and use baby factory to generate all baby tomagotchis
+
+// create instance of original tomagotchi
+const pet = new Tomagotchi();
+
+const babyFactory = {
+	babies: [],
+	generateBaby() {
+		const newBaby = new Baby();
+		this.babies.push(newBaby);
+		return newBaby;
+	},
+	findBaby(index) {
+		return this.babies[index]
 	}
 }
 
-// create instance of tomagotchi
-const pet = new Tomagotchi ();
-
-// create class for baby inherited from original tomagotchi class
-class Baby extends Tomagotchi {
-	constructor () {
-		super (age, hunger, sleepiness, boredom, isClean, isDead)
-		this.name = "Lil Slimey";
-	}
-	powers () {
-		// add some special power here (slime attack?)
-		// add additional button for user to call it
-	}
-	// will need to update global code so it works for baby too
-}
-
-const giveBirth = () => {
-	// create instance of baby tomagotchi from class
-	// const babyPet = new Baby ();
-}
-
-// call give birth func when parent pet reaches age of 15
-if (pet.age === 15) {
-	giveBirth ();
-	// display message
-}
+// ****STATS****
 
 // display starter stats in browser
 $("#hunger").text("Hunger: " + pet.hunger);
@@ -204,9 +96,13 @@ const raiseAge = () => {
 			pet.morph();
 		} else if (pet.age === 10) {
 			pet.morph();
+		} else if (pet.age === 15) {
+			pet.giveBirth();
+			// display message
 		}
 	}
 }
+
 // STAT INTERVALS:
 
 // raising age every 40 seconds
@@ -217,6 +113,9 @@ const hungID = setInterval(raiseHunger, 20000);
 const sleepID = setInterval(raiseSleepiness, 30000);
 // raising boredom every 25 seconds
 const boredID = setInterval(raiseBoredom, 25000);
+
+
+// ****FUNCTIONS*****
 
 // func to display message, then for it to disappear (used with setTimeout)
 
@@ -269,7 +168,7 @@ $("#exercise").on("click", function(event) {
 	}
 })
 
-
+// MODAL BUTTONS:
 
 closeModal.on("click", function (event) {
 	modal.removeClass("show-modal");
@@ -281,10 +180,6 @@ openModal.on("click", function (event) {
 	}
 });
 
-// add function to rename pet whatever user wants
-// Rename your Tomagotchi!
-
-// MODAL BUTTONS:
 $("#name_pet").on("click", function(event) {
 	let newName;
 	if ($("input").val() != "") {
@@ -299,7 +194,7 @@ $("#default").on("click", function(event) {
 	pet.changeName(defaultName);
 })
 
-// BUTTON ONLY APPEARS IF PET DIES
+// THIS BUTTON ONLY APPEARS IF PET DIES
 // restarts game with default values
 $("#reset").on("click", function(event) {
 	$("#pet").attr("src", "images/grimer.png");
