@@ -1,11 +1,18 @@
 // TO DO LIST: 
 
-// 1. Animate tomagotchi
+// 1. Animate tomagotchi + lightbulb image (CSS Animations or Canvas?)
 // 2. display message if hunger/boredom/sleepiness are at certain levels
+// 3. display age of pet if they died in message
+// 4. change buttons to be more visual?
+// 5. STYLIZE PAGE
 
-// 3. have your tomagotchi give birth, to baby tomagotchi (with button?)
-// 4. display stats for baby // add buttons for baby. (somehow switch windows between parent/baby?)
-// 5. add special powers to baby tomagotchi (extends the class)
+// EXTRAS (BABY):
+
+// 1. have your tomagotchi give birth, to baby tomagotchi (with button?)
+// 2. update global code so all funcs will work for both parent and baby
+// 3. flesh out unique properties of baby (powers)
+// 4. display all info for baby // add buttons for baby. (somehow switch windows between parent/baby?)
+// 5. STYLIZE PAGE
 
 // initialize tomagotchi class
 class Tomagotchi {
@@ -86,7 +93,6 @@ class Tomagotchi {
 		} else if (this.age === 10) {
 			$("#pet").attr("src", "images/alolan_muk.png")
 		}
-		// set conditions to become parent
 	}
 	die () {
 		$("#pet").attr("src", "images/dead_pet.png")
@@ -110,6 +116,30 @@ class Tomagotchi {
 
 // create instance of tomagotchi
 const pet = new Tomagotchi ();
+
+// create class for baby inherited from original tomagotchi class
+class Baby extends Tomagotchi {
+	constructor () {
+		super (age, hunger, sleepiness, boredom, isClean, isDead)
+		this.name = "Lil Slimey";
+	}
+	powers () {
+		// add some special power here (slime attack?)
+		// add additional button for user to call it
+	}
+	// will need to update global code so it works for baby too
+}
+
+const giveBirth = () => {
+	// create instance of baby tomagotchi from class
+	// const babyPet = new Baby ();
+}
+
+// call give birth func when parent pet reaches age of 15
+if (pet.age === 15) {
+	giveBirth ();
+	// display message
+}
 
 // display starter stats in browser
 $("#hunger").text("Hunger: " + pet.hunger);
