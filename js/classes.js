@@ -81,6 +81,7 @@ class Tomagotchi {
 	die() {
 		$("#pet").attr("src", "images/dead_pet.png")
 		$("#reset").css("visibility", "visible")
+		displayMessage(pet.name + " passed away at the age of " + pet.age);
 		this.isDead = true;
 	}
 	exercise() {

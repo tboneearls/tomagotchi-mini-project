@@ -6,6 +6,7 @@ body * {
 }
 button {
     font-size: 16px;
+    transition: 0.5s;
 }
 button:hover {
     cursor: pointer;
@@ -83,6 +84,7 @@ input {
     border-radius: 0.25rem;
     background-color: lightgray;
     margin-bottom: 4px;
+    transition: 0.5s;
 }
 .close-button:hover {
     background-color: #FF3B31;

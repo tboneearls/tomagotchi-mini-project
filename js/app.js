@@ -2,10 +2,9 @@
 
 // 1. Animate tomagotchi + lightbulb image (CSS keyframe animations// canvas// velocity.js library)
 // 2. display message if hunger/boredom/sleepiness are at certain levels
-// 3. display age of pet if they died in message
-// 4. change buttons to be more visual?
-// 5. animate interactions with pet
-// 6. STYLIZE PAGE
+// 3. change buttons to be more visual?
+// 4. animate interactions with pet
+// 5. STYLIZE PAGE
 
 // EXTRAS (BABY):
 
@@ -198,6 +197,8 @@ $("#default").on("click", function(event) {
 // restarts game with default values
 $("#reset").on("click", function(event) {
 	$("#pet").attr("src", "images/grimer.png");
+	// reset death message
+	displayMessage("");
 	pet.name = "Grimer";
 	pet.age = 1;
 	pet.hunger = 1;
