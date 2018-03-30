@@ -219,10 +219,15 @@ $("#reset").on("click", function(event) {
 	// reset death message
 	displayMessage("");
 	pet.name = "Grimer";
+	$("#name").text("Name: Grimer");
 	pet.age = 1;
+	$("#age").text("Age: 1")
 	pet.hunger = 1;
+	$("#hunger").text("Hunger: 1");
 	pet.sleepiness = 1;
+	$("#sleepiness").text("Sleepiness: 1");
 	pet.boredom = 1;
+	$("#boredom").text("Boredom: 1");
 	pet.isDead = false;
 	$(this).css("visibility", "hidden");
 })
