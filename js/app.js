@@ -4,7 +4,7 @@
 // 2. display message if hunger/boredom/sleepiness are at certain levels
 // 3. change buttons to be more visual?
 // 4. animate interactions with pet
-// 5. STYLIZE PAGE
+// . STYLIZE PAGE
 
 // EXTRAS (BABY):
 

@@ -36,14 +36,9 @@ button:hover {
 #message {
     position: absolute;
     top: 20vh;
-    left: 35vw;
+    left: 20vw;
 	color: black;
 
-}
-#pet {
-    position: absolute;
-    top: 35vh;
-    left: 30vw;
 }
 
 /*MODAL STYLING
@@ -101,20 +96,20 @@ input {
 /*ELEMENTS TO ANIMATE*/
 
 #lightbulb {
-    float: left;
+    position: absolute;
+    left: -20vw;
+    top: 4vh;
 }
 
 #pet {
     position: absolute;
     top: 35vh;
-    left: 30vw;
-    animation-name: roam;
-    animation-duration: 3s;
+    left: 15vw;
 }
 
 /*KEYFRAMES*/
 
 @keyframes roam {
-    from{ transform: translateX(0); }
-    to{ transform: translateX(400px); }
+    from{ transform: translateX(0px); }
+    to{ transform: translateX(500px); }
 }

@@ -26,7 +26,7 @@ class Tomagotchi {
 		if (!lightOn) {
 			// when lights are "off", background is black and everything but buttons
 			// and stats are invisible
-			$("#lightbulb").css("visibility", "hidden");
+			$("#lightbulb").css({"visibility": "hidden", "animation": ""});
 			$("body").css({"background-color": "black", "z-index": "1000"});
 			$("#title").css("z-index", "1001");
 			$("button").css("z-index", "1001");
@@ -44,7 +44,7 @@ class Tomagotchi {
 			}
 		} else {
 			// change body and button to default values
-			$("#lightbulb").css("visibility", "visible");
+			$("#lightbulb").css({"visibility": "visible", "animation": "roam 1s forwards ease-in"});
 			$("body").css({"background": "#FFCDF0", "z-index": "0"});
 			$("button").css("z-index", "0");
 			$("#stats h1").css({"z-index": "0", "color": "black"});
@@ -87,6 +87,7 @@ class Tomagotchi {
 	exercise() {
 		displayMessage(pet.name + " starts jogging.");
 		this.isClean = false;
+		$("#pet").css("animation", "roam 3s infinite alternate ease-in-out");
 		$("#exercise").text("Shower");
 		// when exercising, the rate of hunger and sleepiness increases faster
 		// will need to shower after exercising before doing anything else
@@ -95,6 +96,7 @@ class Tomagotchi {
 		displayMessage(pet.name + " takes a hot shower.");
 		setTimeout(removeMessage, 1000);
 		this.isClean = true;
+		$("#pet").css("animation", "");
 		$("#exercise").text("Exercise");
 	}
 	giveBirth() {
