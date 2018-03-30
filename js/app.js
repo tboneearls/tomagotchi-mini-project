@@ -132,37 +132,56 @@ const removeMessage = () => {
 // STAT CHANGING BUTTONS
 
 $("#feed").on("click", function(event) {
-	if (lightOn && pet.isClean && !pet.isDead) {
-		displayMessage(pet.name + " enjoys a hearty meal!");
-		setTimeout(removeMessage, 1000);
-		pet.eat();
+	if (lightOn && pet.isClean && !pet.isDead && !pet.isPlaying) {
+		pet.isEating = !pet.isEating;
+		if (pet.isEating) {
+			displayMessage(pet.name + " enjoys a hearty meal!");
+			setTimeout(removeMessage, 1000);
+			$("#feed").text("Stop Eating");
+			pet.eat();
+		} else {
+			displayMessage(pet.name + " is done eating.");
+			setTimeout(removeMessage, 1000);
+			$("#feed").text("Eat");
+		}
 	}
 });
 
 
 $("#light").on("click", function(event) {
-	if (lightOn && pet.isClean && !pet.isDead) {
+	if (lightOn && pet.isClean && !pet.isDead && !pet.isPlaying && !pet.isEating) {
 		displayMessage(pet.name + " takes a relaxing nap!");
 		$("#message").css("color", "white");
 		setTimeout(removeMessage, 500);
 		pet.sleep();
-	} else if (pet.isClean && !pet.isDead) {
+	} else if (pet.isClean && !pet.isDead && !pet.isPlaying && !pet.isEating) {
 		pet.sleep();
 	}
 });
 
 $("#play").on("click", function(event) {
-	if (lightOn && pet.isClean && !pet.isDead) {
-		displayMessage(pet.name + " has some fun!");
-		setTimeout(removeMessage, 1000);
-		pet.play();
+	if (lightOn && pet.isClean && !pet.isDead && !pet.isEating) {
+		pet.isPlaying = !pet.isPlaying;
+		if (pet.isPlaying) {
+			$("#pet").css("animation", "jump 1s 0.6s infinite cubic-bezier(.82,.05,.44,.91)");
+			displayMessage(pet.name + " has some fun!");
+			setTimeout(removeMessage, 1000);
+			$("#play").text("Stop Playing");
+			pet.play();
+		} else {
+			$("#pet").css("animation", "");
+			displayMessage(pet.name + " takes a break.");
+			setTimeout(removeMessage, 1000);
+			$("#play").text("Play");
+		}
+		
 	}
 });
 
 $("#exercise").on("click", function(event) {
-	if (pet.isClean && !pet.isDead && lightOn) {
+	if (pet.isClean && !pet.isDead && lightOn && !pet.isPlaying && !pet.isEating) {
 		pet.exercise();
-	} else if (!pet.isDead && lightOn) {
+	} else if (!pet.isDead && lightOn && !pet.isPlaying && !pet.isEating) {
 		pet.shower();
 	}
 })
@@ -174,7 +193,7 @@ closeModal.on("click", function (event) {
 });
 
 openModal.on("click", function (event) {
-	if (lightOn && !pet.isDead && pet.isClean) {
+	if (lightOn && !pet.isDead && pet.isClean && !pet.isPlaying && !pet.isEating) {
 		modal.addClass("show-modal");
 	}
 });

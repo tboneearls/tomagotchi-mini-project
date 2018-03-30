@@ -10,6 +10,8 @@ class Tomagotchi {
 		this.boredom = 1;
 		this.isClean = true;
 		this.isDead = false;
+		this.isPlaying = false;
+		this.isEating = false;
 	}
 	play() {
 		if (this.boredom > 1) {
@@ -44,7 +46,7 @@ class Tomagotchi {
 			}
 		} else {
 			// change body and button to default values
-			$("#lightbulb").css({"visibility": "visible", "animation": "roam 1s forwards ease-in"});
+			$("#lightbulb").css({"visibility": "visible", "animation": "slideIn 1s forwards ease-in"});
 			$("body").css({"background": "#FFCDF0", "z-index": "0"});
 			$("button").css("z-index", "0");
 			$("#stats h1").css({"z-index": "0", "color": "black"});
@@ -87,7 +89,7 @@ class Tomagotchi {
 	exercise() {
 		displayMessage(pet.name + " starts jogging.");
 		this.isClean = false;
-		$("#pet").css("animation", "roam 3s infinite alternate ease-in-out");
+		$("#pet").css("animation", "slideIn 3s infinite alternate ease-in-out");
 		$("#exercise").text("Shower");
 		// when exercising, the rate of hunger and sleepiness increases faster
 		// will need to shower after exercising before doing anything else

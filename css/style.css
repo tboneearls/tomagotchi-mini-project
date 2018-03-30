@@ -35,8 +35,8 @@ button:hover {
 }
 #message {
     position: absolute;
-    top: 20vh;
-    left: 20vw;
+    top: 123px;
+    left: 275px;
 	color: black;
 
 }
@@ -103,13 +103,21 @@ input {
 
 #pet {
     position: absolute;
-    top: 35vh;
-    left: 15vw;
+/*    top: 35vh;
+    left: 15vw;*/
+    top: 250px;
+    left: 200px;
 }
 
 /*KEYFRAMES*/
 
-@keyframes roam {
+@keyframes slideIn {
     from{ transform: translateX(0px); }
     to{ transform: translateX(500px); }
+}
+
+@keyframes jump {
+    0%{top: 250px}
+    50%{top: 150px}
+    100%{top: 250px}
 }
